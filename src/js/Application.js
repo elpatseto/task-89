@@ -31,9 +31,7 @@ export default class Application extends EventEmitter {
 
     async _load() {
 
-        let responce = await fetch('https://swapi.boom.dev/api/planets');
-
-        let url = "https://swapi.boom.dev/api/planets";
+        let url = await "https://swapi.boom.dev/api/planets";
 
         function checkStatus(responce) {
             if (responce.status >= 200 && responce.status < 300) {
@@ -47,17 +45,11 @@ export default class Application extends EventEmitter {
             return responce.json();
         }
 
-
-        fetch(url)
-            .then(checkStatus)
-            .then(toJSON)
-            .then((data) => {
-                data.results.forEach(d => {
-                    this._create(d.name, d.terrain, d.population);
-                })
-            })
-        for (let i = 2; i <= 6; i++) {
-            url = 'https://swapi.boom.dev/api/planets?page=' + 1;
+        for (let i = 1; i <= 6; i++) {
+            console.log(url);
+            if (i > 1) {
+                url = 'https://swapi.boom.dev/api/planets?page=' + i;
+            }
             fetch(url)
                 .then(checkStatus)
                 .then(toJSON)
